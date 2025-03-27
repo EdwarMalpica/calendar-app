@@ -34,6 +34,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
   const [title, setTitle] = useState(event?.title || "")
   const [description, setDescription] = useState(event?.description || "")
 
+  // Use Date objects for easier manipulation
   const [startDate, setStartDate] = useState<Date>(event?.start || initialDate || new Date())
   const [endDate, setEndDate] = useState<Date>(
     event?.end ||
@@ -49,7 +50,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
   const handleAddReminder = () => {
     const newReminder: Reminder = {
       id: uuidv4(),
-      time: 30, 
+      time: 30, // Default 30 minutes before
     }
     setReminders([...reminders, newReminder])
   }
@@ -62,6 +63,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setReminders(reminders.map((reminder) => (reminder.id === id ? { ...reminder, time } : reminder)))
   }
 
+  // Update start time without changing the date
   const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [hours, minutes] = e.target.value.split(":").map(Number)
     const newDate = new Date(startDate)
@@ -69,6 +71,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setStartDate(newDate)
   }
 
+  // Update end time without changing the date
   const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [hours, minutes] = e.target.value.split(":").map(Number)
     const newDate = new Date(endDate)
@@ -76,9 +79,11 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setEndDate(newDate)
   }
 
+  // Update start date from calendar picker
   const handleStartDateSelect = (date: Date | undefined) => {
     if (date) {
       const newDate = new Date(date)
+      // Preserve the time from the current startDate
       newDate.setHours(
         startDate.getHours(),
         startDate.getMinutes(),
@@ -89,9 +94,11 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     }
   }
 
+  // Update end date from calendar picker
   const handleEndDateSelect = (date: Date | undefined) => {
     if (date) {
       const newDate = new Date(date)
+      // Preserve the time from the current endDate
       newDate.setHours(endDate.getHours(), endDate.getMinutes(), endDate.getSeconds(), endDate.getMilliseconds())
       setEndDate(newDate)
     }
@@ -115,17 +122,12 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     onSave(newEvent, updateAll)
   }
 
+  // Actualizar las opciones de colores en el formulario para mostrar solo 4 colores
   const colorOptions: { value: EventColor; label: string }[] = [
     { value: "blue", label: "Blue" },
-    { value: "indigo", label: "Indigo" },
-    { value: "purple", label: "Purple" },
-    { value: "pink", label: "Pink" },
-    { value: "red", label: "Red" },
-    { value: "orange", label: "Orange" },
-    { value: "yellow", label: "Yellow" },
     { value: "green", label: "Green" },
-    { value: "teal", label: "Teal" },
-    { value: "cyan", label: "Cyan" },
+    { value: "red", label: "Red" },
+    { value: "yellow", label: "Yellow" },
   ]
 
   const reminderOptions = [
@@ -139,6 +141,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     { value: 1440, label: "1 day before" },
   ]
 
+  // Format date for display in a more compact way
   const formatDateForDisplay = (date: Date) => {
     return format(date, "MMM d, yyyy", { locale: enUS })
   }
@@ -261,7 +264,19 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
                     {colorOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         <div className="flex items-center">
-                          <div className={`w-4 h-4 rounded-full mr-2 bg-${option.value}-500`} />
+                          <div
+                            className={
+                              option.value === "red"
+                                ? "w-4 h-4 rounded-full mr-2 bg-red-500"
+                                : option.value === "blue"
+                                  ? "w-4 h-4 rounded-full mr-2 bg-blue-500"
+                                  : option.value === "green"
+                                    ? "w-4 h-4 rounded-full mr-2 bg-green-500"
+                                    : option.value === "yellow"
+                                      ? "w-4 h-4 rounded-full mr-2 bg-yellow-500"
+                                      : ""
+                            }
+                          />
                           {option.label}
                         </div>
                       </SelectItem>

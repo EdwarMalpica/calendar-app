@@ -63,6 +63,7 @@ export function EventDetails({ event, onClose, onEdit, onDelete }: EventDetailsP
   }
 
   const handleConfirmDelete = () => {
+    // Close both modals and delete the event
     setShowDeleteConfirmation(false)
     onDelete(event.id, false)
   }
@@ -80,7 +81,19 @@ export function EventDetails({ event, onClose, onEdit, onDelete }: EventDetailsP
           </DialogHeader>
 
           <div className="space-y-4 py-2">
-            <div className={`w-full h-2 rounded-full bg-${event.color}-500`} />
+            <div
+              className={
+                event.color === "red"
+                  ? "w-full h-2 rounded-full bg-red-500"
+                  : event.color === "blue"
+                    ? "w-full h-2 rounded-full bg-blue-500"
+                    : event.color === "green"
+                      ? "w-full h-2 rounded-full bg-green-500"
+                      : event.color === "yellow"
+                        ? "w-full h-2 rounded-full bg-yellow-500"
+                        : ""
+              }
+            />
 
             <div className="flex items-start gap-3">
               <Clock className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />

@@ -30,6 +30,7 @@ export function MonthView({ currentDate, events, onDateClick, onEventClick }: Mo
 
   const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd })
 
+  // Group days into weeks
   const weeks: Date[][] = []
   let week: Date[] = []
 
@@ -41,6 +42,7 @@ export function MonthView({ currentDate, events, onDateClick, onEventClick }: Mo
     }
   })
 
+  // Get events for a specific day
   const getEventsForDay = (day: Date) => {
     return events.filter((event) => isSameDay(event.start, day))
   }
@@ -94,7 +96,15 @@ export function MonthView({ currentDate, events, onDateClick, onEventClick }: Mo
                         key={event.id}
                         className={cn(
                           "text-xs p-1 rounded truncate cursor-pointer text-white",
-                          `bg-${event.color}-500 dark:bg-${event.color}-600`,
+                          event.color === "red"
+                            ? "bg-red-500 dark:bg-red-600"
+                            : event.color === "blue"
+                              ? "bg-blue-500 dark:bg-blue-600"
+                              : event.color === "green"
+                                ? "bg-green-500 dark:bg-green-600"
+                                : event.color === "yellow"
+                                  ? "bg-yellow-500 dark:bg-yellow-600"
+                                  : "",
                         )}
                         onClick={(e) => {
                           e.stopPropagation()
