@@ -34,7 +34,6 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
   const [title, setTitle] = useState(event?.title || "")
   const [description, setDescription] = useState(event?.description || "")
 
-  // Use Date objects for easier manipulation
   const [startDate, setStartDate] = useState<Date>(event?.start || initialDate || new Date())
   const [endDate, setEndDate] = useState<Date>(
     event?.end ||
@@ -50,7 +49,7 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
   const handleAddReminder = () => {
     const newReminder: Reminder = {
       id: uuidv4(),
-      time: 30, // Default 30 minutes before
+      time: 30, 
     }
     setReminders([...reminders, newReminder])
   }
@@ -63,7 +62,6 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setReminders(reminders.map((reminder) => (reminder.id === id ? { ...reminder, time } : reminder)))
   }
 
-  // Update start time without changing the date
   const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [hours, minutes] = e.target.value.split(":").map(Number)
     const newDate = new Date(startDate)
@@ -71,7 +69,6 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setStartDate(newDate)
   }
 
-  // Update end time without changing the date
   const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [hours, minutes] = e.target.value.split(":").map(Number)
     const newDate = new Date(endDate)
@@ -79,11 +76,9 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     setEndDate(newDate)
   }
 
-  // Update start date from calendar picker
   const handleStartDateSelect = (date: Date | undefined) => {
     if (date) {
       const newDate = new Date(date)
-      // Preserve the time from the current startDate
       newDate.setHours(
         startDate.getHours(),
         startDate.getMinutes(),
@@ -94,11 +89,9 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     }
   }
 
-  // Update end date from calendar picker
   const handleEndDateSelect = (date: Date | undefined) => {
     if (date) {
       const newDate = new Date(date)
-      // Preserve the time from the current endDate
       newDate.setHours(endDate.getHours(), endDate.getMinutes(), endDate.getSeconds(), endDate.getMilliseconds())
       setEndDate(newDate)
     }
@@ -122,7 +115,6 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     onSave(newEvent, updateAll)
   }
 
-  // Usando colores estándar de Tailwind
   const colorOptions: { value: EventColor; label: string }[] = [
     { value: "blue", label: "Blue" },
     { value: "indigo", label: "Indigo" },
@@ -147,7 +139,6 @@ export function EventForm({ event, initialDate, onClose, onSave }: EventFormProp
     { value: 1440, label: "1 day before" },
   ]
 
-  // Format date for display in a more compact way
   const formatDateForDisplay = (date: Date) => {
     return format(date, "MMM d, yyyy", { locale: enUS })
   }

@@ -30,7 +30,6 @@ export function MonthView({ currentDate, events, onDateClick, onEventClick }: Mo
 
   const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd })
 
-  // Group days into weeks
   const weeks: Date[][] = []
   let week: Date[] = []
 
@@ -42,7 +41,6 @@ export function MonthView({ currentDate, events, onDateClick, onEventClick }: Mo
     }
   })
 
-  // Get events for a specific day
   const getEventsForDay = (day: Date) => {
     return events.filter((event) => isSameDay(event.start, day))
   }

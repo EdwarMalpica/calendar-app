@@ -63,7 +63,6 @@ export function EventDetails({ event, onClose, onEdit, onDelete }: EventDetailsP
   }
 
   const handleConfirmDelete = () => {
-    // Close both modals and delete the event
     setShowDeleteConfirmation(false)
     onDelete(event.id, false)
   }

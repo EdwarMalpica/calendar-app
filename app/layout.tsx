@@ -7,8 +7,6 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Event Calendar",
-  description: "Calendar application with events, reminders and recurring events",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -26,7 +24,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'
